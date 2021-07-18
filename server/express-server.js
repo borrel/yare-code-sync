@@ -15,8 +15,20 @@ app.use(allowCrossDomain);
 
 app.get('/code-sync', async (req, res, next) => {
   try {
-    const data = await provider.getCodeSync();
-    res.jsonp(data.toString());
+    var data = "";
+    if(("host" in req.headers) && !(['localhost','127.0.0.1'].includes(req.headers.host.substr(0, 9)))){
+        //prepend host reported by headers
+        data += `window._serverAddr = ${JSON.stringify(req.headers.host)};`;
+    }
+
+    //console.log(req.headers)
+    if(('x-forwarded-proto' in req.headers && req.headers['x-forwarded-proto'] == 'https')){
+        data += `window._protoHint = 's';`
+    }
+
+
+
+    res.jsonp(data +  (await provider.getCodeSync()).toString());
   } catch (err) {
     next(err);
   }
