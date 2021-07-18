@@ -5,7 +5,7 @@
   "dependencies": {
     "express": "4.17.1",
     "lodash": "4.17.21",
-    "nodejs-websocket": "1.7.2"
+    "express-ws": "5.0.2"
   },
   "devDependencies": {
     "awesome-websocket": "0.0.25",
