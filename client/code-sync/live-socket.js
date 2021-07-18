@@ -6,7 +6,7 @@ class LiveSocket extends EventEmitter {
   constructor() {
     super();
     window._LiveSocket?.close()
-    this.ws = new AwesomeWebSocket(`ws://${host.addr}:8001/`);
+    this.ws = new AwesomeWebSocket(host.socketAddr);
     this.ws.onopen = this.onOpen.bind(this);
     this.ws.onmessage = this.onMsg.bind(this);
     this.ws.onclose = this.onClose.bind(this);
