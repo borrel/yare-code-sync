@@ -2,6 +2,9 @@
   "name": "yare-code-sync",
   "version": "1.0.0",
   "description": "",
+  "bin": {
+    "yaresync": "server/run.js"
+  },
   "dependencies": {
     "express": "4.17.1",
     "lodash": "4.17.21",
