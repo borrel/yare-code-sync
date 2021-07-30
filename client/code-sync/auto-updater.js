@@ -34,7 +34,7 @@ class AutoUpdater {
 
   async requestNewCode() {
     this.updateStatus(`[${new Date().toISOString()}] Updating code... `);
-    const res = await fetch(host.codeAddr);
+    const res = await fetch(host.codeUrl);
     const code = await res.json();
     const versionPrefix = `var CODE_VERSION = '${this.genRandomHex(8)}';`;
     window.editor.selectAll();

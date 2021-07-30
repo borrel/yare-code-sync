@@ -7,7 +7,7 @@
     (base.position[1] + enemy_base.position[1] * 0.2) / 1.2
   ];
   RenderService.circle(PATROL_CENTER, PATROL_RADIUS, 'rgba(255, 255, 50, 0.4)');
-
+RenderService.text(base.position, `Default Bot running`, '#ff0000');
   // Generate a random target in a circle between the bases
   const generateDestination = () => {
     let dx = Infinity;
