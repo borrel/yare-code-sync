@@ -1,4 +1,20 @@
 # Code Sync tool (yare-io)
+[![Docker](https://github.com/borrel/yare-code-sync/actions/workflows/docker-publish.yml/badge.svg?branch=main)](https://github.com/borrel/yare-code-sync/actions/workflows/docker-publish.yml)
+
+## Docker
+
+```
+#create output
+mkdir dist
+
+#put your code here
+touch dist/bot.js
+
+#run the container
+docker run -v $PWD/dist:/app/dist --rm -ti -p4000:4000 ghcr.io/borrel/yare-code-sync:latest
+```
+
+
 ## Setup
 This project uses nvm, npm, and grunt. In your terminal/shell, run:
 ```
