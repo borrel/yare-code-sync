@@ -11,7 +11,7 @@ mkdir dist
 touch dist/bot.js
 
 #run the container
-docker run -v $PWD/dist:/app/dist --rm -ti -p4000:4000 ghcr.io/borrel/yare-code-sync:latest
+docker run -v $PWD/bot:/app/bot --rm -p4000:4000 ghcr.io/borrel/yare-code-sync:latest
 ```
 
 
