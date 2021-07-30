@@ -3,6 +3,8 @@ Dockerfile
 .nvmrc
 .gitignore
 .git
-node_modules
+node_modules/
+dist/
+bot/
 
 
