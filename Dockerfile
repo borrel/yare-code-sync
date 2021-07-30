@@ -7,8 +7,6 @@ RUN chmod +x /tini
 ENTRYPOINT ["/tini", "--"]
 
 
-
-
 RUN mkdir -p /app/dist
 RUN chown -R node:node /app
 
@@ -17,18 +15,15 @@ USER node
 
 WORKDIR /app
 
-COPY --chown=node:node package*.json ./
+COPY --chown=node:node package*.json gruntfile.js ./
 
-RUN npm install
+RUN npm install && ./node_modules/.bin/grunt browserify && rm -rf node_modules gruntfile.js client
 
 COPY --chown=node:node . .
 
 
 ENV NODE_ENV=production
 
-RUN ./node_modules/.bin/grunt browserify
-
-RUN rm -rf node_modules gruntfile.js client
 
 RUN npm install
 RUN npm cache clean --force
