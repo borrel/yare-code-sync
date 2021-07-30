@@ -30,6 +30,27 @@ exports.getCodeMain = () => {
 };
 
 exports.onNewBuild = (callback) => {
-  fs.watch(CODE_MAIN_PATH, callback);
+
+  try{
+      fs.watch(CODE_MAIN_PATH, callback);
+  }catch(e){
+    console.log(JSON.stringify(e));
+    if(e.code == "ENOENT"){
+      console.log(`waiting for ${CODE_MAIN_PATH} (${e.code})`);
+      fs.watchFile(CODE_MAIN_PATH, (curr, prev) => {
+
+        if(curr.mtimeMs ==0)return;
+
+        console.log(`${CODE_MAIN_PATH} created`);
+        fs.unwatchFile(CODE_MAIN_PATH);
+        exports.onNewBuild(callback);
+        callback();
+      });
+
+
+    }else{
+      throw e;
+    }
+  }
 };
 
