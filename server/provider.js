@@ -34,7 +34,6 @@ exports.onNewBuild = (callback) => {
   try{
       fs.watch(CODE_MAIN_PATH, callback);
   }catch(e){
-    console.log(JSON.stringify(e));
     if(e.code == "ENOENT"){
       console.log(`waiting for ${CODE_MAIN_PATH} (${e.code})`);
       fs.watchFile(CODE_MAIN_PATH, (curr, prev) => {
