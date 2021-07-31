@@ -3,11 +3,12 @@
   "includeForks": true,
   "extends": [
     "config:base",
-    "helpers:disableTypesNodeMajor",
-    "docker:disableMajor",
     "group:nodeJs",
     "group:allNonMajor",
     ":automergeMinor",
     ":automergeBranch"
-  ]
+  ],
+  "node": {
+    "supportPolicy": ["lts_latest"]
+  }
 }
