@@ -1,4 +1,4 @@
-FROM node:14 as builder
+FROM node:16 as builder
 
 RUN mkdir -p /app/dist /app/bot
 RUN chown -R node:node /app
@@ -18,7 +18,7 @@ COPY --chown=node:node . ./
 RUN ./node_modules/.bin/grunt browserify && rm -rf node_modules
 RUN npm install && npm cache clean --force
 
-FROM node:14
+FROM node:16
 
 # Add Tini
 ENV TINI_VERSION v0.19.0
