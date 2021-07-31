@@ -1,11 +1,4 @@
-FROM node:14
-
-# Add Tini
-ENV TINI_VERSION v0.19.0
-ADD https://github.com/krallin/tini/releases/download/${TINI_VERSION}/tini /tini
-RUN chmod +x /tini
-ENTRYPOINT ["/tini", "--"]
-
+FROM node:14 as builder
 
 RUN mkdir -p /app/dist /app/bot
 RUN chown -R node:node /app
@@ -23,14 +16,21 @@ ENV NODE_ENV=production
 
 COPY --chown=node:node . ./
 RUN ./node_modules/.bin/grunt browserify && rm -rf node_modules
+RUN npm install && npm cache clean --force
 
+FROM node:14
 
+# Add Tini
+ENV TINI_VERSION v0.19.0
+ADD https://github.com/krallin/tini/releases/download/${TINI_VERSION}/tini /tini
+RUN chmod +x /tini
+ENTRYPOINT ["/tini", "--"]
 
+WORKDIR /app
 
+COPY --from=builder /app /app
 
-RUN npm install
-RUN npm cache clean --force
-
+ENV NODE_ENV=production
 ENV CUSTOM_CODE_PATH=/app/bot/code.js
 
 #use a volume to override
