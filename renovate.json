@@ -1,4 +1,13 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "includeForks": true
+  "includeForks": true,
+  "extends": [
+    "config:base",
+    "helpers:disableTypesNodeMajor",
+    "docker:disableMajor",
+    "group:nodeJs",
+    "group:allNonMajor",
+    ":automergeMinor",
+    ":automergeBranch"
+  ]
 }
