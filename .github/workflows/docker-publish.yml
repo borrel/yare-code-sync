@@ -33,9 +33,10 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
+        
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
 
-      # Login against a Docker registry except on PR
-      # https://github.com/docker/login-action
       - name: Log into registry ${{ env.REGISTRY }}
         if: github.event_name != 'pull_request'
         uses: docker/login-action@2c6df6a22f32a796762dc6a9a7b044f8b3ea7f2d
@@ -54,6 +55,8 @@ jobs:
           flavor: |
             latest=false
             suffix=dev,onlatest=true
+            
+            
           
 
       # Build and push Docker image with Buildx (don't push on PR)
@@ -68,12 +71,6 @@ jobs:
           target: builder
           cache-from: type=registry,ref=${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:buildcache-dev
           cache-to: type=registry,ref=${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:buildcache-dev,mode=max
-      -
-        name: Upload artifact
-        uses: actions/upload-artifact@v2
-        with:
-          name: dev
-          path: /tmp/dev-image.tar
 
   runner:
 
@@ -104,15 +101,6 @@ jobs:
         uses: docker/metadata-action@b127c18eb4bfbcffd584a3c2275832cb7fde9341
         with:
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
-          
-      - name: Download artifact
-        uses: actions/download-artifact@v2
-        with:
-          name: dev
-          path: /tmp
-      - name: Load image
-        run: |
-          docker load --input /tmp/dev-image.tar
           
           
       # Build and push Docker image with Buildx (don't push on PR)
