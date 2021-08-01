@@ -83,9 +83,11 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
+        
+        
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
 
-      # Login against a Docker registry except on PR
-      # https://github.com/docker/login-action
       - name: Log into registry ${{ env.REGISTRY }}
         if: github.event_name != 'pull_request'
         uses: docker/login-action@2c6df6a22f32a796762dc6a9a7b044f8b3ea7f2d
