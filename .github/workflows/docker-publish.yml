@@ -60,17 +60,28 @@ jobs:
           
 
       # Build and push Docker image with Buildx (don't push on PR)
-      # https://github.com/docker/build-push-action
       - name: Build and push Docker image
+        if: ${{ github.event_name != 'pull_request' }}
         uses: docker/build-push-action@e06a3af40d8cc14b3bd54805391f880ba1fc11b5
         with:
           context: .
-          push: ${{ github.event_name != 'pull_request' }}
+          push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
           target: builder
           cache-from: type=registry,ref=${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:buildcache-dev
           cache-to: type=registry,ref=${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:buildcache-dev,mode=max
+          
+          
+      - name: Build Docker image
+        if: ${{ github.event_name == 'pull_request' }}
+        uses: docker/build-push-action@e06a3af40d8cc14b3bd54805391f880ba1fc11b5
+        with:
+          context: .
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+          target: builder
+          cache-from: type=registry,ref=${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:buildcache-dev
 
   runner:
 
@@ -104,14 +115,13 @@ jobs:
         with:
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
           
-          
-      # Build and push Docker image with Buildx (don't push on PR)
-      # https://github.com/docker/build-push-action
-      - name: Build and push Docker image
+
+      - name: Build and push Runner Docker image
+        if: ${{ github.event_name != 'pull_request' }}
         uses: docker/build-push-action@e06a3af40d8cc14b3bd54805391f880ba1fc11b5
         with:
           context: .
-          push: ${{ github.event_name != 'pull_request' }}
+          push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
           target: runner
@@ -119,3 +129,19 @@ jobs:
             type=registry,ref=${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:buildcache-dev
             type=registry,ref=${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:buildcache-run
           cache-to: type=registry,ref=${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:buildcache-run,mode=max
+          
+      - name: Build Runner Docker image
+        if: ${{ github.event_name == 'pull_request' }}
+        uses: docker/build-push-action@e06a3af40d8cc14b3bd54805391f880ba1fc11b5
+        with:
+          context: .
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+          target: runner
+          cache-from: |
+            type=registry,ref=${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:buildcache-dev
+            type=registry,ref=${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:buildcache-run
+          
+          
+          
+          
