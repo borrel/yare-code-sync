@@ -54,7 +54,7 @@ jobs:
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
           flavor: |
             latest=false
-            suffix=dev,onlatest=true
+            suffix=-dev,onlatest=true
             
             
           
