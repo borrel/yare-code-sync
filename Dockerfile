@@ -1,4 +1,4 @@
-FROM node:14.18.2 as start
+FROM node:14.18.3 as start
 
 RUN mkdir -p /app/dist /app/bot
 RUN chown -R node:node /app
