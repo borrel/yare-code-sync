@@ -6,7 +6,7 @@
     "yaresync": "server/run.js"
   },
   "dependencies": {
-    "express": "4.17.2",
+    "express": "4.17.3",
     "lodash": "4.17.21",
     "express-ws": "5.0.2"
   },
