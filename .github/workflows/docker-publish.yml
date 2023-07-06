@@ -68,7 +68,7 @@ jobs:
       # Build and push Docker image with Buildx (don't push on PR)
       - name: Build and push Docker image
         if: ${{ github.event_name != 'pull_request' }}
-        uses: docker/build-push-action@e06a3af40d8cc14b3bd54805391f880ba1fc11b5
+        uses: docker/build-push-action@f05b754b571695bf93164b9b54cb8e2e96e22706
         with:
           context: .
           push: true
@@ -81,7 +81,7 @@ jobs:
           
       - name: Build Docker image
         if: ${{ github.event_name == 'pull_request' }}
-        uses: docker/build-push-action@e06a3af40d8cc14b3bd54805391f880ba1fc11b5
+        uses: docker/build-push-action@f05b754b571695bf93164b9b54cb8e2e96e22706
         with:
           context: .
           tags: ${{ steps.meta.outputs.tags }}
@@ -124,7 +124,7 @@ jobs:
 
       - name: Build and push Runner Docker image
         if: ${{ github.event_name != 'pull_request' }}
-        uses: docker/build-push-action@e06a3af40d8cc14b3bd54805391f880ba1fc11b5
+        uses: docker/build-push-action@f05b754b571695bf93164b9b54cb8e2e96e22706
         with:
           context: .
           push: true
@@ -138,7 +138,7 @@ jobs:
           
       - name: Build Runner Docker image
         if: ${{ github.event_name == 'pull_request' }}
-        uses: docker/build-push-action@e06a3af40d8cc14b3bd54805391f880ba1fc11b5
+        uses: docker/build-push-action@f05b754b571695bf93164b9b54cb8e2e96e22706
         with:
           context: .
           tags: ${{ steps.meta.outputs.tags }}
